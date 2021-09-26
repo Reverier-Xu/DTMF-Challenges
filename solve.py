@@ -71,15 +71,15 @@ try:
     for i in range(0, len(data), piece):
         signal = data[i:i+piece]
         
-        frequencies = numpy.fft.fftfreq(signal.size, d=1/fps) # 获得频率
-        amplitudes = numpy.fft.fft(signal) # 对信号进行傅里叶变换，得到振幅
+        frequencies = numpy.fft.fftfreq(signal.size, d=1/fps)  # 获得频率
+        amplitudes = numpy.fft.fft(signal)  # 对信号进行傅里叶变换，得到振幅
 
         # 提取出此段音频中的低频声音
-        i_min = numpy.where(frequencies > 0)[0][0] # 过滤负频率
-        i_max = numpy.where(frequencies > 1050)[0][0] # 过滤高频率
+        i_min = numpy.where(frequencies > 0)[0][0]  # 过滤负频率
+        i_max = numpy.where(frequencies > 1050)[0][0]  # 过滤高频率
         
-        freq = frequencies[i_min:i_max] # 频率
-        amp = abs(amplitudes.real[i_min:i_max]) # 振幅
+        freq = frequencies[i_min:i_max]  # 频率
+        amp = abs(amplitudes.real[i_min:i_max])  # 振幅
 
         aim_low_freq = freq[numpy.where(amp == max(amp))[0][0]]
 
@@ -114,7 +114,7 @@ try:
         aim_high_freq = best
         ans = ''
 
-        if aim_low_freq == 0 or aim_high_freq == 0: # 空音，输出连接符
+        if aim_low_freq == 0 or aim_high_freq == 0:  # 空音，输出连接符
             ans = '-'
         elif DTMF_TABLE[(aim_low_freq, aim_high_freq)] != ans:
             ans = DTMF_TABLE[(aim_low_freq, aim_high_freq)]
